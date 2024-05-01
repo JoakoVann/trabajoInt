@@ -1,11 +1,5 @@
-TAD COLA
-
-ESTRUCTURA INTERNA
-
-cola = []
-
-
-IMPLEMENTACION 
+from Tad_cliente import *
+from Tad_Empresa import *
 
 
 def CrearCola ():

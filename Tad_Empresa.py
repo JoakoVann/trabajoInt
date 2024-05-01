@@ -1,12 +1,4 @@
-TAD EMPRESA
-
-ESTRUCTURA INTERNA
-
-E = []
-
-
-IMPLEMENTACION
-
+from Tad_cliente import *
 
 def CrearEmpresa ():
     E = []

@@ -1,16 +1,5 @@
-TAD CLIENTE
-
-
-ESTRUCTURA INTERNA
-
-cliente = [0,0,"","","","",0]
-
-
-IMPLEMENTACION
-
-
 def crearCliente ():
-    cliente = []
+    cliente = [0,0,"","",0,"",0]
     return cliente
 
 
