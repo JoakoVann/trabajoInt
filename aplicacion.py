@@ -8,6 +8,7 @@ def menu ():
     print("2. Para modificar un cliente\n")
     print("3. Para eliminar un cliente\n")
     print("4. Para ver el listado completo de los clientes\n")
+    print("5. Para eliminar la lista de clientes por el tipo de servicio adquirido\n")
     print("0. Para salir\n")
     op = int(input("Ingrese a continuacion la opcion que desea realizar: "))
     return op
@@ -69,7 +70,22 @@ def mostrarCliente(e):
             print("Precio del servicio: ", verPrecio (cliente))
             print("-------------------------------------------")
     else:
-        print("No hay clientes \n")
+        print("-------------------------------------------")
+        print("\nNo hay clientes \n")
+        print("-------------------------------------------")    
+
+
+def borrarServicio(e, tipo_serv):
+    i = 0
+    while (i < Tamanio(e)):
+        cliente = RecuperarCliente(e, (i+1))
+        if (verTipo(cliente) == tipo_serv):
+            EliminarCliente(e, cliente)
+        else:
+            i+=1
+    print("-------------------------------------------")
+    print("\nYa no hay mas clientes con el servicio: ", tipo_serv, "\n")
+    print("-------------------------------------------")
 
 
 print("--------------- BIENVENIDO ---------------\n")
@@ -86,6 +102,9 @@ while (op != 0):
         borrarCliente(numCliente)
     elif op == 4:
         mostrarCliente(empresa)
+    elif op == 5:
+        tipo_serv = str(input("ingresar el tipo de servicio: "))
+        borrarServicio(empresa,tipo_serv)
     else:
         print("Opcion incorrecta, vuelva a seleccionar otra\n")
     op = menu()
