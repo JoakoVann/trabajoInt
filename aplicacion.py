@@ -22,19 +22,19 @@ def agregarCliente():
     service=input("Ingrese el tipo de servicio: ")
     price=float(input("Ingrese el precio del servicio contratado: "))
     cargarCliente(cliente,num,dni,ape,nom,fecha,service,price)
-    agregarCliente(empresa,cliente)
+    AgregarCliente(empresa,cliente)
 
 def buscarCliente(num):
     tam = Tamanio(empresa)
-    for i in range (tamanio): 
-        c=RecuperarCliente(i)
+    for i in range (0, tam): 
+        c=RecuperarCliente(empresa, i)
         if (verNumero(c) == num):
             return c
     return -1 #tomamos -1 como si el numero de cliente que se busco no se encontro
 
 def modificarCliente(numero):
     c = buscarCliente(numero)
-    mod = input("que aspecto desea modificar: Nombre, Apellido, DNI, Tipo de servicio (tipo) o Precio: ").lower
+    mod = input("que aspecto desea modificar: Nombre, Apellido, DNI, Tipo de servicio (tipo) o Precio: ").lower()
     if mod == "nombre" : 
         ModiNombre(c, input("Ingrese el nuevo nombre: "))
     elif mod == "apellido":
@@ -43,11 +43,13 @@ def modificarCliente(numero):
         ModiDni(c,int(input("Ingrese el nuevo DNI: ")))
     elif mod == "tipo":
         ModiTipo(c,input("Ingrese el nuevo tipo de servicio: "))
-    else:
+    elif mod == "precio":
         ModiPrecio(c,float(input("Ingrese el nuevo precio del servicio: ")))
+    else:
+        print("El dato ingresado no es valido\n")
 
 def borrarCliente(numero):
-    c = RecuperarCliente(numero)
+    c = RecuperarCliente(empresa, numero)
     if (Existe(empresa,c)):
         EliminarCliente(empresa,c)
         print("Cliente eliminado con exito\n")
@@ -56,9 +58,9 @@ def borrarCliente(numero):
 
 def mostrarCliente(e):
     if(Tamanio(e) != 0):
-        for i in range (1, Tamanio(e)):
+        for i in range (0, Tamanio(e)):
             cliente = RecuperarCliente(e, i)
-            print("Numero del cliente: ", verNumero (cliente))
+            print("\nNumero del cliente: ", verNumero (cliente))
             print("DNI: ", verDni (cliente))
             print("Apellido: ", verApellido (cliente))
             print("Nombre: ", verNombre (cliente))
