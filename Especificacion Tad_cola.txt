@@ -1,0 +1,20 @@
+ESPECIFICACION TAD COLA
+
+CrearCola ():
+#crea y retorna una cola vacia
+
+EsVacia (cola):
+#retorna verdadero si la cola no tiene elementos
+
+Encolar (cola,Elem):
+#agrega un elemento al final de la cola
+
+Desencolar (cola):
+#elimina y retorna el primer elemento de la cola
+
+Tamanio (cola):
+#retorna la cantidad de elementos de la cola
+
+Copiar (cola1,cola2):
+#copia la cola2 en la cola1
+
