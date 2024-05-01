@@ -34,27 +34,30 @@ def buscarCliente(num):
 
 def modificarCliente(numero):
     c = buscarCliente(numero)
-    mod = input("que aspecto desea modificar: Nombre, Apellido, DNI, Tipo de servicio (tipo) o Precio: ").lower()
-    if mod == "nombre" : 
-        ModiNombre(c, input("Ingrese el nuevo nombre: "))
-    elif mod == "apellido":
-        ModiApellido(c, input("Ingrese el nuevo apellido: "))
-    elif mod == "dni":
-        ModiDni(c,int(input("Ingrese el nuevo DNI: ")))
-    elif mod == "tipo":
-        ModiTipo(c,input("Ingrese el nuevo tipo de servicio: "))
-    elif mod == "precio":
-        ModiPrecio(c,float(input("Ingrese el nuevo precio del servicio: ")))
+    if (c != -1): 
+        mod = input("que aspecto desea modificar: Nombre, Apellido, DNI, Tipo de servicio (tipo) o Precio: ").lower()
+        if mod == "nombre" : 
+            ModiNombre(c, input("Ingrese el nuevo nombre: "))
+        elif mod == "apellido":
+            ModiApellido(c, input("Ingrese el nuevo apellido: "))
+        elif mod == "dni":
+            ModiDni(c,int(input("Ingrese el nuevo DNI: ")))
+        elif mod == "tipo":
+            ModiTipo(c,input("Ingrese el nuevo tipo de servicio: "))
+        elif mod == "precio":
+            ModiPrecio(c,float(input("Ingrese el nuevo precio del servicio: ")))
+        else:
+            print("El dato ingresado no es valido\n")
     else:
-        print("El dato ingresado no es valido\n")
+        print("No existe el usuario ingresado, regresando al menu\n")
 
 def borrarCliente(numero):
     c = RecuperarCliente(empresa, numero)
-    if (Existe(empresa,c)):
+    if (c!=-1):
         EliminarCliente(empresa,c)
         print("Cliente eliminado con exito\n")
     else: 
-        print("No se encontro el cliente, volviendo al menu\n")
+        print("No se encontro el cliente, regresando al menu\n")
 
 def mostrarCliente(e):
     if(Tamanio(e) != 0):
