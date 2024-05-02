@@ -12,6 +12,7 @@ def menu ():
     print("5. Para eliminar la lista de clientes por el tipo de servicio adquirido\n")
     print("6. Para aplicar descuento a clientes con 3 años de antiguedad\n")
     print("7. Para mostrar listado de clientes con promoción vigente\n")
+    print("8. Para generar una cola con las altas de los clientes del último mes\n")
     print("0. Para salir\n")
     op = int(input("Ingrese a continuacion la opcion que desea realizar: "))
     return op
@@ -136,6 +137,38 @@ def promocion (e):
             
 
 
+def clientesDelUltimoMes(e):
+    if(Tamanio(e) != 0):
+        hoy=int(input("Ingrese la fecha de hoy aaaammdd: "))
+        mes = hoy - 100
+        aux = False
+        cantC = 0
+        recaudado = 0
+        for i in range (0, Tamanio(e)):
+            cliente = RecuperarCliente(e, i)
+            if (mes <= verFecha(cliente) <= hoy):
+                aux = True
+                clientesMes = CrearCola()
+                c = [verDni(cliente), verPrecio(cliente)]
+                Encolar(clientesMes, c)
+                cantC += 1
+                recaudado += verPrecio(cliente)
+        if (aux == False):
+            print("-------------------------------------------")
+            print("\nNo hay clientes este ultimo mes\n")
+            print("-------------------------------------------")
+        else: 
+            print("-------------------------------------------")
+            print("\nEl ultimo mes se registraron: ", cantC)
+            print("Los ingresos del ultimo mes fueron: ", recaudado,"\n")
+            print("-------------------------------------------")
+            return clientesMes
+    else:
+        print("-------------------------------------------")
+        print("\nNo hay clientes con promos\n")
+        print("-------------------------------------------")
+
+
 
 print("--------------- BIENVENIDO ---------------\n")
 op = menu()
@@ -159,7 +192,8 @@ while (op != 0):
         descuento(empresa,des)
     elif op == 7: 
         promocion(empresa)
-
+    elif op == 8:
+        colaClientesM = clientesDelUltimoMes(empresa)
     else:
         print("Opcion incorrecta, vuelva a seleccionar otra\n")
     op = menu()
