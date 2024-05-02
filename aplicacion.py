@@ -27,7 +27,7 @@ def agregarCliente():
 
 def buscarCliente(num):
     tam = Tamanio(empresa)
-    for i in range (0, tam): 
+    for i in range (1, tam): 
         c=RecuperarCliente(empresa, i)
         if (verNumero(c) == num):
             return c
