@@ -3,12 +3,25 @@ from Tad_Cola import *
 
 empresa=CrearEmpresa()
 
+cliente = crearCliente()
+cliente1 = crearCliente()
+cliente2 = crearCliente()
+cargarCliente(cliente, 1, 242532, "ch", "va", 20240520, "ele", 2000)
+cargarCliente(cliente1, 2, 352532, "bf", "jo", 20230511, "ele", 3000)
+cargarCliente(cliente2, 3, 672532, "cj", "gr", 20250524, "fer", 4000)
+AgregarCliente(empresa, cliente)
+AgregarCliente(empresa, cliente1)
+AgregarCliente(empresa, cliente2)
+
+
 def menu ():
     print("1. Para agregar un cliente\n")
     print("2. Para modificar un cliente\n")
     print("3. Para eliminar un cliente\n")
     print("4. Para ver el listado completo de los clientes\n")
     print("5. Para eliminar la lista de clientes por el tipo de servicio adquirido\n")
+    print("6. Para aplicar descuento a clientes con 3 años de antiguedad\n")
+    print("7. Para mostrar listado de clientes con promoción vigente\n")
     print("0. Para salir\n")
     op = int(input("Ingrese a continuacion la opcion que desea realizar: "))
     return op
@@ -19,7 +32,7 @@ def agregarCliente():
     dni= int(input("Ingrese el dni del cliente: "))
     ape=input("Ingrese el apellido del cliente: ")
     nom=input("Ingrese el nombre del cliente: ")
-    fecha=int(input("Ingrese la fecha de alta del cliente ddmmaaaa: "))
+    fecha=int(input("Ingrese la fecha de alta del cliente aaaammdd: "))
     service=input("Ingrese el tipo de servicio: ")
     price=float(input("Ingrese el precio del servicio contratado: "))
     cargarCliente(cliente,num,dni,ape,nom,fecha,service,price)
@@ -91,6 +104,49 @@ def borrarServicio(e, tipo_serv):
     print("-------------------------------------------")
 
 
+def calcularFechaDescuento (f,h):
+    f = f + 30000
+    if f>h:
+        return True
+    else:
+        return False
+    
+
+
+def descuento (e,d):
+    if(Tamanio(e) != 0):
+        hoy=int(input("Ingrese la fecha de hoy aaaammdd: "))
+        for i in range (0, Tamanio(e)):
+            c=RecuperarCliente (e,i+1)
+            if not calcularFechaDescuento(verFecha(c),hoy):
+                pre= verPrecio(c)-d
+                ModiPrecio(c,pre)
+
+def promocion (e):
+    if(Tamanio(e) != 0):
+        hoy=int(input("Ingrese la fecha de hoy aaaammdd: "))
+        aux = True
+        for i in range (0, Tamanio(e)):
+            c=RecuperarCliente (e,(i+1)) 
+            #compara si la fecha de alta del cliente es posterior a tres meses
+            if not calcularFechaDescuento(verFecha(c),hoy):
+                print("\nNumero del cliente: ", verNumero (c))
+                print("DNI: ", verDni (c))
+                print("Apellido: ", verApellido (c))
+                print("Nombre: ", verNombre (c))
+                print("Fecha de alta: ", verFecha (c))
+                print("Tipo de servicio contratado: ", verTipo(c))
+                print("Precio del servicio: ", verPrecio (c))
+                print("-------------------------------------------\n")
+                aux = False
+        if(aux):
+            print("-------------------------------------------")
+            print("\nNo hay clientes con promos\n")
+            print("-------------------------------------------")
+            
+
+
+
 print("--------------- BIENVENIDO ---------------\n")
 op = menu()
 while (op != 0): 
@@ -108,6 +164,12 @@ while (op != 0):
     elif op == 5:
         tipo_serv = str(input("ingresar el tipo de servicio: "))
         borrarServicio(empresa,tipo_serv)
+    elif op == 6: 
+        des=float(input("ingrese descuento: "))
+        descuento(empresa,des)
+    elif op == 7: 
+        promocion(empresa)
+
     else:
         print("Opcion incorrecta, vuelva a seleccionar otra\n")
     op = menu()
