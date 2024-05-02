@@ -3,16 +3,6 @@ from Tad_Cola import *
 
 empresa=CrearEmpresa()
 
-cliente = crearCliente()
-cliente1 = crearCliente()
-cliente2 = crearCliente()
-cargarCliente(cliente, 1, 242532, "ch", "va", 20240520, "ele", 2000)
-cargarCliente(cliente1, 2, 352532, "bf", "jo", 20230511, "ele", 3000)
-cargarCliente(cliente2, 3, 672532, "cj", "gr", 20250524, "fer", 4000)
-AgregarCliente(empresa, cliente)
-AgregarCliente(empresa, cliente1)
-AgregarCliente(empresa, cliente2)
-
 
 def menu ():
     print("1. Para agregar un cliente\n")
