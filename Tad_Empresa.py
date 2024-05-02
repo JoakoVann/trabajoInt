@@ -18,7 +18,7 @@ def Tamanio (E):
 
 
 def RecuperarCliente (E,i):
-    return E [i-1]
+    return E[i-1]
 
 
 def Existe (E,cliente):
