@@ -157,6 +157,7 @@ def clientesDelUltimoMes(e):
             print("-------------------------------------------")
             print("\nNo hay clientes este ultimo mes\n")
             print("-------------------------------------------")
+            return 0
         else: 
             print("-------------------------------------------")
             print("\nEl ultimo mes se registraron: ", cantC)
@@ -167,6 +168,7 @@ def clientesDelUltimoMes(e):
         print("-------------------------------------------")
         print("\nNo hay clientes con promos\n")
         print("-------------------------------------------")
+        return 0
 
 
 
