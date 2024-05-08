@@ -6,9 +6,15 @@ empresa=CrearEmpresa()
 cliente = crearCliente()
 cliente1 = crearCliente()
 cliente2 = crearCliente()
+<<<<<<< HEAD
 cargarCliente(cliente, 1, 242532, "ch", "va", datetime.datetime(2024,4,15), "ele", 2000)
 cargarCliente(cliente1, 2, 352532, "bf", "jo", datetime.datetime(2024,4,29), "ele", 3000)
 cargarCliente(cliente2, 3, 672532, "cj", "gr", datetime.datetime(2024,4,9), "fer", 4000)
+=======
+cargarCliente(cliente, 1, 242532, "ch", "va", 20052024, "ele", 2000)
+cargarCliente(cliente1, 2, 352532, "bf", "jo", 11052024, "ele", 3000)
+cargarCliente(cliente2, 3, 672532, "cj", "gr", 24052024, "fer", 4000)
+>>>>>>> refs/remotes/origin/main
 AgregarCliente(empresa, cliente)
 AgregarCliente(empresa, cliente1)
 AgregarCliente(empresa, cliente2)
@@ -101,6 +107,7 @@ def borrarServicio(e, tipo_serv):
     print("\nYa no hay mas clientes con el servicio: ", tipo_serv, "\n")
     print("-------------------------------------------")
 
+<<<<<<< HEAD
 
 # def cambiarOrdenFecha(f):
 #     f = str(f)
@@ -159,6 +166,66 @@ def promocion (e,op):
             c=RecuperarCliente (e,i+1) 
             #compara si la fecha de alta del cliente es posterior a tres meses
             if (calcularFechaDescuento(verFecha(c),hoy,op)):
+=======
+
+def cambiarOrdenFecha(f):
+    f = str(f)
+    #este if esta pq si hay un dia que empiece con 0 el strin no toma el 0 inicial
+    if len(f) < 8:
+        o = "0"
+        f = o + f
+    aux = f[4:] + f[2:4] + f[0:2]
+    aux = int(aux)
+    return aux
+
+def calcularFechaDescuento (f,h):
+    #calcula 3 años atras de la fecha de hoy
+    #puede que haya que sumarle 3 a la fecha del cliente en vez de restar a la fecha actual
+    f = cambiarOrdenFecha(f)
+    h = str(h)
+    a = int (h[4:]) -3
+    a2 = str (a)
+    t = a2 + h[2:4] + h[:2]
+    t = int(t)
+    #compara si la fecha de alta del cliente es posterior a tres años atras
+    if f > t:
+        return True
+    else:
+        return False
+    
+
+def descuento (e,d):
+    if(Tamanio(e) != 0):
+        hoy = int(input("Ingrese la fecha de hoy ddmmaaaa: "))
+        for i in range (0, Tamanio(e)):
+            c=RecuperarCliente (e,i + 1)
+            if not calcularFechaDescuento(verFecha(c),hoy):
+                pre = verPrecio(c)-d
+                ModiPrecio(c,pre)
+        print("-------------------------------------------")
+        print("\nSe ha aplicado el descuento\n")
+        print("-------------------------------------------")
+    else:
+        print("-------------------------------------------")
+        print("\nNo hay clientes \n")
+        print("-------------------------------------------")
+
+def promocion (e):
+    if(Tamanio(e) != 0):
+        hoy=input("Ingrese la fecha de hoy ddmmaaaa: ")
+        #calcula 3 meses atras de la fecha de hoy
+        a = int (hoy[2:4]) -3
+        a = str (a)
+        # 05 - 3 = 2 => hay que agregarle un 0 para no romper la fecha
+        a = "0" + a
+        t = hoy[4:] + a + hoy[0:2]
+        t = int(t)
+       
+        for i in range (1, Tamanio(e)):
+            c=RecuperarCliente (e,i) 
+            #compara si la fecha de alta del cliente es posterior a tres meses
+            if (cambiarOrdenFecha(verFecha(c)) >= t):
+>>>>>>> refs/remotes/origin/main
                 print("\nNumero del cliente: ", verNumero (c))
                 print("DNI: ", verDni (c))
                 print("Apellido: ", verApellido (c))
@@ -176,14 +243,30 @@ def promocion (e,op):
 def clientesDelMesAnterior(e):
     clientesMes = CrearCola()
     if(Tamanio(e) != 0):
+<<<<<<< HEAD
         hoy= datetime.datetime.now()
         mesAnt = hoy - datetime.timedelta(days=30)
+=======
+        hoy= input("Ingrese la fecha de hoy ddmmaaaa: ")
+        mesAnt = str(int(hoy[2:4]) - 1) + hoy[4:]
+        mesAnt = int(mesAnt)
+>>>>>>> refs/remotes/origin/main
         aux = False
         cantC = 0
         recaudado = 0
         for i in range (0, Tamanio(e)):
+<<<<<<< HEAD
             cliente = RecuperarCliente(e, i+1)
             if (verFecha(cliente) >= mesAnt):
+=======
+            cliente = RecuperarCliente(e, i)
+            mCliente = str(verFecha(cliente))
+            if(len(mCliente) != 8):
+                mCliente = "0" + mCliente
+            mCliente = int(mCliente[2:])
+            
+            if (mesAnt == mCliente):
+>>>>>>> refs/remotes/origin/main
                 aux = True
                 c = [verDni(cliente), verPrecio(cliente)]
                 Encolar(clientesMes, c)
@@ -226,9 +309,15 @@ while (op != 0):
         borrarServicio(empresa,tipo_serv)    
     elif op == 6: 
         des = float(input("ingrese descuento: "))
+<<<<<<< HEAD
         descuento (empresa,des,op)
     elif op == 7: 
         promocion (empresa,op)
+=======
+        descuento (empresa,des)
+    elif op == 7: 
+        promocion (empresa)
+>>>>>>> refs/remotes/origin/main
     elif op == 8:
         colaClientesM =  clientesDelMesAnterior(empresa)
     else:
