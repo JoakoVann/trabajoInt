@@ -1,7 +1,21 @@
 from Tad_Empresa import *
 from Tad_Cola import *
 import datetime
-empresa=CrearEmpresa
+
+
+empresa = CrearEmpresa()
+cliente = crearCliente()
+cliente1 = crearCliente()
+cliente2 = crearCliente()
+cargarCliente(cliente, 1, 242532, "ch", "va", datetime.datetime(2024,4,15), "ele", 2000)
+cargarCliente(cliente1, 2, 352532, "bf", "jo", datetime.datetime(2024,4,29), "ele", 3000)
+cargarCliente(cliente2, 3, 672532, "cj", "gr", datetime.datetime(2024,4,9), "fer", 4000)
+cargarCliente(cliente, 1, 242532, "ch", "va", 20052024, "ele", 2000)
+cargarCliente(cliente1, 2, 352532, "bf", "jo", 11052024, "ele", 3000)
+cargarCliente(cliente2, 3, 672532, "cj", "gr", 24052024, "fer", 4000)
+AgregarCliente(empresa, cliente)
+AgregarCliente(empresa, cliente1)
+AgregarCliente(empresa, cliente2)
 
 def menu ():
     print("1. Para agregar un cliente\n")
@@ -22,7 +36,7 @@ def agregarCliente(): #Punto a
     dni= int(input("Ingrese el dni del cliente: "))
     ape=input("Ingrese el apellido del cliente: ")
     nom=input("Ingrese el nombre del cliente: ")
-    fecha=int(input("Ingrese la fecha de alta del cliente ddmmaaaa: "))
+    fecha=input("Ingrese la fecha de alta del cliente ddmmaaaa: ")
     service=input("Ingrese el tipo de servicio: ")
     price=float(input("Ingrese el precio del servicio contratado: "))
     cargarCliente(cliente,num,dni,ape,nom,formatearFecha(fecha),service,price)
@@ -67,8 +81,10 @@ def borrarCliente(numero): #Punto a
         print("-------------------------------------------")
     else: 
         EliminarCliente(empresa,cliente)
-        print("Cliente eliminado con exito\n")
-
+        print("-------------------------------------------")
+        print("\nCliente eliminado con exito\n")
+        print("-------------------------------------------")
+        
 def mostrarCliente(e):#Punto b
     if(Tamanio(e) != 0):
         for i in range (0, Tamanio(e)):
@@ -100,8 +116,7 @@ def borrarServicio(e, tipo_serv): #Punto c
     print("-------------------------------------------")
 
 def formatearFecha(f): #funcion que guarda la fecha en la que se anoto el cliente 
-    f= str(f)
-    a = int(f[4:])
+    a= int(f[4:])
     m=int(f[2:4])
     d=int(f[0:2])
     fecha = datetime.datetime(a,m,d)
