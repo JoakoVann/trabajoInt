@@ -1,7 +1,18 @@
 from Tad_Empresa import *
 from Tad_Cola import *
+import datetime
 
 empresa=CrearEmpresa()
+cliente = crearCliente()
+cliente1 = crearCliente()
+cliente2 = crearCliente()
+cargarCliente(cliente, 1, 242532, "ch", "va", datetime.datetime(2024,4,15), "ele", 2000)
+cargarCliente(cliente1, 2, 352532, "bf", "jo", datetime.datetime(2024,4,29), "ele", 3000)
+cargarCliente(cliente2, 3, 672532, "cj", "gr", datetime.datetime(2024,4,9), "fer", 4000)
+AgregarCliente(empresa, cliente)
+AgregarCliente(empresa, cliente1)
+AgregarCliente(empresa, cliente2)
+
 
 def menu ():
     print("1. Para agregar un cliente\n")
@@ -10,6 +21,8 @@ def menu ():
     print("4. Para ver el listado completo de los clientes\n")
     print("5. Para eliminar la lista de clientes por el tipo de servicio adquirido\n")
     print("6. Para aplicar descuento a clientes con 3 años de antiguedad\n")
+    print("7. Para mostrar listado de clientes con promoción vigente\n")
+    print("8. Para generar una cola con las altas de los clientes del último mes\n")
     print("0. Para salir\n")
     op = int(input("Ingrese a continuacion la opcion que desea realizar: "))
     return op
@@ -20,15 +33,15 @@ def agregarCliente():
     dni= int(input("Ingrese el dni del cliente: "))
     ape=input("Ingrese el apellido del cliente: ")
     nom=input("Ingrese el nombre del cliente: ")
-    fecha=input("Ingrese la fecha de alta del cliente ddmmaaaa: ")
+    fecha=int(input("Ingrese la fecha de alta del cliente ddmmaaaa: "))
     service=input("Ingrese el tipo de servicio: ")
     price=float(input("Ingrese el precio del servicio contratado: "))
-    cargarCliente(cliente,num,dni,ape,nom,fecha,service,price)
+    cargarCliente(cliente,num,dni,ape,nom,formatearFecha(fecha),service,price)
     AgregarCliente(empresa,cliente)
 
 def buscarCliente(num):
     tam = Tamanio(empresa)
-    for i in range (1, tam): 
+    for i in range (0, tam): 
         c=RecuperarCliente(empresa, i)
         if (verNumero(c) == num):
             return c
@@ -36,35 +49,32 @@ def buscarCliente(num):
 
 def modificarCliente(numero):
     c = buscarCliente(numero)
-    if (c != -1): 
-        mod = input("que aspecto desea modificar: Nombre, Apellido, DNI, Tipo de servicio (tipo) o Precio: ").lower()
-        if mod == "nombre" : 
-            ModiNombre(c, input("Ingrese el nuevo nombre: "))
-        elif mod == "apellido":
-            ModiApellido(c, input("Ingrese el nuevo apellido: "))
-        elif mod == "dni":
-            ModiDni(c,int(input("Ingrese el nuevo DNI: ")))
-        elif mod == "tipo":
-            ModiTipo(c,input("Ingrese el nuevo tipo de servicio: "))
-        elif mod == "precio":
-            ModiPrecio(c,float(input("Ingrese el nuevo precio del servicio: ")))
-        else:
-            print("El dato ingresado no es valido\n")
+    mod = input("que aspecto desea modificar: Nombre, Apellido, DNI, Tipo de servicio (tipo) o Precio: ").lower()
+    if mod == "nombre" : 
+        ModiNombre(c, input("Ingrese el nuevo nombre: "))
+    elif mod == "apellido":
+        ModiApellido(c, input("Ingrese el nuevo apellido: "))
+    elif mod == "dni":
+        ModiDni(c,int(input("Ingrese el nuevo DNI: ")))
+    elif mod == "tipo":
+        ModiTipo(c,input("Ingrese el nuevo tipo de servicio: "))
+    elif mod == "precio":
+        ModiPrecio(c,float(input("Ingrese el nuevo precio del servicio: ")))
     else:
-        print("No existe el usuario ingresado, regresando al menu\n")
+        print("El dato ingresado no es valido\n")
 
 def borrarCliente(numero):
-    c = buscarCliente(numero)
-    if (c!=-1):
+    c = RecuperarCliente(empresa, numero)
+    if (Existe(empresa,c)):
         EliminarCliente(empresa,c)
         print("Cliente eliminado con exito\n")
     else: 
-        print("No se encontro el cliente, regresando al menu\n")
+        print("No se encontro el cliente, volviendo al menu\n")
 
 def mostrarCliente(e):
     if(Tamanio(e) != 0):
         for i in range (0, Tamanio(e)):
-            cliente = RecuperarCliente(e, i)
+            cliente = RecuperarCliente(e, (i+1))
             print("\nNumero del cliente: ", verNumero (cliente))
             print("DNI: ", verDni (cliente))
             print("Apellido: ", verApellido (cliente))
@@ -78,6 +88,7 @@ def mostrarCliente(e):
         print("\nNo hay clientes \n")
         print("-------------------------------------------")    
 
+
 def borrarServicio(e, tipo_serv):
     i = 0
     while (i < Tamanio(e)):
@@ -90,29 +101,113 @@ def borrarServicio(e, tipo_serv):
     print("\nYa no hay mas clientes con el servicio: ", tipo_serv, "\n")
     print("-------------------------------------------")
 
-def Calcular (f,h):
-    #calcula 3 años atras de la fecha de hoy
-    fechaAct = int(str(h)[-4:])
-    fechaServ = int(str(f)[-4:])
-    print(f"año servicio {fechaServ} año act {fechaAct} resta de años {fechaAct-fechaServ}")
-    #compara si la fecha de alta del cliente es posterior a tres años atras
-    if (fechaAct-fechaServ) >= 3:
-        return True
-    else:
-        return False
 
-def descuento (e,desc):
+# def cambiarOrdenFecha(f):
+#     f = str(f)
+# #este if esta pq si hay un dia que empiece con 0 el strin no toma el 0 inicial
+#     if len(f) < 8:
+#         o = "0"
+#         f = o + f
+#     aux = f[4:] + f[2:4] + f[0:2]
+#     aux = int(aux)
+#     return aux
+
+def formatearFecha(f): #funcion que guarda la fecha en la que se anoto el cliente 
+    f= str(f)
+    a = int(f[4:])
+    m=int(f[2:4])
+    d=int(f[0:2])
+    fecha = datetime.datetime(a,m,d)
+    return fecha
+
+def calcularFechaDescuento (fechaCliente,hoy,op):
+    if op == 6: 
+        anioAtras = hoy - datetime.timedelta(days=1095)
+        if (fechaCliente < anioAtras): 
+            return True
+        else:
+            return False
+    elif op == 7:
+        mesesAtras = hoy - datetime.timedelta(days=90) #retorna 3 meses atras a la fecha actual
+        if (fechaCliente > mesesAtras):
+            return True #si es mayor nos da true 
+        else:
+            return False
+    else:
+        return False #si se llega a esta instancia es pq no hay clientes o la fecha es invalida
+
+def descuento (e,d,op):
     if(Tamanio(e) != 0):
-        hoy=input("Ingrese la fecha de hoy ddmmaaaa: ")
-        for i in range (1, Tamanio(e)):
-            cliente = RecuperarCliente (e,i)
-            if Calcular (verFecha(cliente),hoy):
-                pre = verPrecio(cliente) - desc
-                ModiPrecio (cliente,pre)
-                print("Descuento realizado con exito\n")
+        hoy = datetime.datetime.now()
+        for i in range (0, Tamanio(e)):
+            c=RecuperarCliente (e,i + 1)
+            if calcularFechaDescuento(verFecha(c),hoy,op):
+                pre = verPrecio(c)-d
+                ModiPrecio(c,pre)
+        print("-------------------------------------------")
+        print("\nSe ha aplicado el descuento\n")
+        print("-------------------------------------------")
+    else:
+        print("-------------------------------------------")
+        print("\nNo hay clientes \n")
+        print("-------------------------------------------")
+
+def promocion (e,op):
+    if(Tamanio(e) != 0):
+        hoy = datetime.datetime.now()
+        for i in range (0, Tamanio(e)):
+            c=RecuperarCliente (e,i+1) 
+            #compara si la fecha de alta del cliente es posterior a tres meses
+            if (calcularFechaDescuento(verFecha(c),hoy,op)):
+                print("\nNumero del cliente: ", verNumero (c))
+                print("DNI: ", verDni (c))
+                print("Apellido: ", verApellido (c))
+                print("Nombre: ", verNombre (c))
+                print("Fecha de alta: ", verFecha (c))
+                print("Tipo de servicio contratado: ", verTipo(c))
+                print("Precio del servicio: ", verPrecio (c))
+                print("\n-------------------------------------------")
+            else:
+                print("-------------------------------------------")
+                print("\nNo hay clientes \n")
+                print("-------------------------------------------")
+
+
+def clientesDelMesAnterior(e):
+    clientesMes = CrearCola()
+    if(Tamanio(e) != 0):
+        hoy= datetime.datetime.now()
+        mesAnt = hoy - datetime.timedelta(days=30)
+        aux = False
+        cantC = 0
+        recaudado = 0
+        for i in range (0, Tamanio(e)):
+            cliente = RecuperarCliente(e, i+1)
+            if (verFecha(cliente) >= mesAnt):
+                aux = True
+                c = [verDni(cliente), verPrecio(cliente)]
+                Encolar(clientesMes, c)
+                cantC += 1
+                recaudado += verPrecio(cliente)
+        if (aux == False):
+            print("-------------------------------------------")
+            print("\nNo hay clientes este ultimo mes\n")
+            print("-------------------------------------------")
+        else: 
+            print("-------------------------------------------")
+            print("\nEl ultimo mes se registraron: ", cantC)
+            print("Los ingresos del ultimo mes fueron: ", recaudado,"\n")
+            print("-------------------------------------------")
+    else:
+        print("-------------------------------------------")
+        print("\nNo hay clientes con promos\n")
+        print("-------------------------------------------")
+    return clientesMes
+
 
 
 print("--------------- BIENVENIDO ---------------\n")
+#cambiarOrdenFecha(20052001)
 op = menu()
 while (op != 0): 
     #invoca a la funcion que elija el usuario
@@ -128,10 +223,14 @@ while (op != 0):
         mostrarCliente(empresa)
     elif op == 5:
         tipo_serv = str(input("ingresar el tipo de servicio: "))
-        borrarServicio(empresa,tipo_serv)
+        borrarServicio(empresa,tipo_serv)    
     elif op == 6: 
-        desc = float(input("ingrese descuento "))
-        descuento(empresa,desc)
+        des = float(input("ingrese descuento: "))
+        descuento (empresa,des,op)
+    elif op == 7: 
+        promocion (empresa,op)
+    elif op == 8:
+        colaClientesM =  clientesDelMesAnterior(empresa)
     else:
         print("Opcion incorrecta, vuelva a seleccionar otra\n")
     op = menu()
