@@ -2,6 +2,7 @@ from Tad_Empresa import *
 from Tad_Cola import *
 import datetime
 
+
 empresa = CrearEmpresa()
 cliente = crearCliente()
 cliente1 = crearCliente()
@@ -15,7 +16,6 @@ cargarCliente(cliente2, 3, 672532, "cj", "gr", 24052024, "fer", 4000)
 AgregarCliente(empresa, cliente)
 AgregarCliente(empresa, cliente1)
 AgregarCliente(empresa, cliente2)
-
 
 def menu ():
     print("1. Para agregar un cliente\n")
@@ -84,8 +84,7 @@ def borrarCliente(numero): #Punto a
         print("-------------------------------------------")
         print("\nCliente eliminado con exito\n")
         print("-------------------------------------------")
-
-
+        
 def mostrarCliente(e):#Punto b
     if(Tamanio(e) != 0):
         for i in range (0, Tamanio(e)):
